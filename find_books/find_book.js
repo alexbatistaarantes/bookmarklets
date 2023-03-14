@@ -5,8 +5,8 @@ window.book_page_urls_patterns = {
     'Goodreads': /goodreads\.com/
 };
 
-window.libraries_urls = [
-];
+/* !!! */
+window.libraries_urls = [];
 
 function getBookPage(){
     for (const [book_page, pattern] of Object.entries(book_page_urls_patterns)) {
@@ -61,17 +61,35 @@ function getBookInfos(book_page){
     return [sanitizeTitle(title), author];
 }
 
-function searchInLibraries(title, author){
+function searchInLibraries(searchQuery){
     libraries_urls.forEach((url) => {
-        const search_url = url.replace("=%s", `=${title.replaceAll(" ", "+")}+${author.replaceAll(" ", "+")}`);
+        const search_url = url.replace("=%s", `=${searchQuery.replaceAll(" ", "+")}`);
         window.open(search_url);
     });
 }
 
 function searchBook(){
+    
+    let searchQuery = null;
+
     const book_page = getBookPage();
-    const [title, author] = getBookInfos(book_page);
-    searchInLibraries(title, author);
+    if(book_page){
+        const [title, author] = getBookInfos(book_page);
+        searchQuery = `${title} ${author}`;
+        
+    }else{
+        if(window.getSelection()){
+            searchQuery = window.getSelection().toString();
+        }else if(document.getSelection()){
+            searchQuery = window.getSelection().toString();
+        }
+    }
+    
+    if(searchQuery){
+        searchInLibraries(searchQuery);
+    }else{
+        alert(`Make sure your in the book page (in ${Object.keys(book_page_urls_patterns).join(" or ")}) or with the book title selected (highlighted)`);
+    }
 }
 
 searchBook();
