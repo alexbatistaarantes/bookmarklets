@@ -1,0 +1,1 @@
+[Adds](./firefox_pdf_reader_shortcuts.js) a shortcut (default is pressing B) to enable/disable the ink tool (unless the text tool is currently enabled).

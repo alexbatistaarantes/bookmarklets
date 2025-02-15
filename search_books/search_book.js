@@ -1,11 +1,13 @@
-window.current_url = window.location.href;
+javascript: ( function(){
+
+    window.current_url = window.location.href;
 
 window.book_page_urls_patterns = {
     'Amazon': /amazon\.com/,
     'Goodreads': /goodreads\.com/
 };
 
-/* !!! */
+/* !!! 🦜👀  */
 window.libraries_urls = [];
 
 function getBookPage(){
@@ -81,15 +83,17 @@ function searchBook(){
         if(window.getSelection()){
             searchQuery = window.getSelection().toString();
         }else if(document.getSelection()){
-            searchQuery = window.getSelection().toString();
+            searchQuery = document.getSelection().toString();
         }
     }
     
     if(searchQuery){
         searchInLibraries(searchQuery);
     }else{
-        alert(`Make sure your in the book page (in ${Object.keys(book_page_urls_patterns).join(" or ")}) or with the book title selected (highlighted)`);
+        alert(`Make sure your in the book page (in ${Object.keys(book_page_urls_patterns).join(" or ")}) or with the book title selected (text highlighted)`);
     }
 }
 
 searchBook();
+
+} )()
