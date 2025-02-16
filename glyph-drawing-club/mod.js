@@ -1,8 +1,19 @@
 javascript: (function() {
     /*==VARIAVEIS==*/
     
-    /* o caractere correspondente ao apertar shift+numero (do 0 ao 9) */
-    var number_char_map = ")!@#$%¨&*("; 
+    /* o caractere correspondente ao apertar shift+numero */
+    var number_char_map = {
+        ')': 0,
+        '!': 1,
+        '@': 2,
+        '#': 3,
+        '$': 4,
+        '%': 5,
+        'Dead': 6,
+        '&': 7,
+        '*': 8,
+        '(': 9
+    };
 
     /*Variaveisdotema*/
     
@@ -73,7 +84,7 @@ javascript: (function() {
     /* == # == */
     
     /* == SHORTCUTS == */
-    window.glyphSelectNumber = '';
+    window.glyphSelectNumber = 1;
     document.onkeydown = function(e) {
         /* MUDAR TAMANHO GLYPH */
         if (e.key == 't') {
@@ -99,54 +110,18 @@ javascript: (function() {
                 document.getElementsByClassName("move_x")[0].getElementsByTagName('button')[2].click(); /* direita */
             };
         /* PASSAR PAGINAS DE GLYPHS */
+        /* shift + < */
         } else if (e.shiftKey && e.key == '<') {
-            /* shift + < */
             document.getElementsByTagName('button')[16].click(); /* anterior */
+        /* shift + > */
         } else if (e.shiftKey && e.key == '>') {
-            /* shift + > */
             document.getElementsByTagName('button')[17].click(); /* proximo */ /* SELECIONAR GLYPH */
-        } else if ((e.shiftKey && number_char_map.includes(e.key)) || e.shiftKey && e.key == 'Dead') {
-            /* shift + {numero} */
-            switch (e.key) {
-                case ')':
-                    glyphSelectNumber += '0';
-                    break;
-                case '!':
-                    glyphSelectNumber += '1';
-                    break;
-                case '@':
-                    glyphSelectNumber += '2';
-                    break;
-                case '#':
-                    glyphSelectNumber += '3';
-                    break;
-                case '$':
-                    glyphSelectNumber += '4';
-                    break;
-                case '%':
-                    glyphSelectNumber += '5';
-                    break;
-                case 'Dead':
-                    glyphSelectNumber += '6';
-                    break;
-                case '&':
-                    glyphSelectNumber += '7';
-                    break;
-                case '*':
-                    glyphSelectNumber += '8';
-                    break;
-                case '(':
-                    glyphSelectNumber += '9';
-                    break;
-                default:
-                    break;
-            };
-            if (glyphSelectNumber != '100' && glyphSelectNumber.length > 2) {
-                glyphSelectNumber = '';
-                glyphSelectNumber = String(number);
-            };
-            if (parseInt(glyphSelectNumber) > 0) {
-                document.getElementById('glyphcont').getElementsByTagName('img')[parseInt(glyphSelectNumber) - 1].click();
+        /* shift + {numero} */
+        } else if (e.shiftKey && e.key in number_char_map){
+            glyphSelectNumber = number_char_map[e.key] + (glyphSelectNumber * 10);
+            glyphSelectNumber = glyphSelectNumber > 100 ? glyphSelectNumber%100 : glyphSelectNumber;
+            if (glyphSelectNumber > 0) {
+                document.getElementById('glyphcont').getElementsByTagName('img')[glyphSelectNumber - 1].click();
             };
         };
     };
