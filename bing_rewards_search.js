@@ -7,7 +7,7 @@ const triggerWord = "preencher";
 const searchesToDo = 30;
 const sleepTimeSeconds = 3;
 
-function waitForElm(selector) {
+function waitForElm(selector) { /* https://stackoverflow.com/questions/5525071/how-to-wait-until-an-element-exists */
   return new Promise(resolve => {
     if (document.querySelector(selector)) {
       return resolve(document.querySelector(selector));
