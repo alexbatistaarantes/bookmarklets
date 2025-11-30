@@ -46,6 +46,9 @@ async function main() {
     /* Muda pesquisa */
     else{
       searchBar.value = searchBar.value.slice(0, -1);
+  	  if(searchBar.value.toLowerCase() == `${triggerWord} `){
+  		  searchBar.value = `finish ${triggerWord}`;
+  	  }
     }
 
     searchButton.click();
