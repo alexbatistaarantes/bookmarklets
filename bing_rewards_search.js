@@ -1,6 +1,8 @@
 /*
 Para ser usado com ferramentas de userscript no navegador (ViolentMonkey ou UBlock por exemplo).
 Pesquisar no Bing a palavra de gatilho, que o script irá ativar e fazer pesquisas automaticamente.
+
+Match: https://www.bing.com/search?*q=preencher*
 */
 
 const triggerWord = "preencher";
