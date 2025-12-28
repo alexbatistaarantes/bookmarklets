@@ -2,12 +2,12 @@
 Para ser usado com ferramentas de userscript no navegador (ViolentMonkey ou UBlock por exemplo).
 Pesquisar no Bing a palavra de gatilho, que o script irá ativar e fazer pesquisas automaticamente.
 
-Match: https://www.bing.com/search?*q=preencher*
+Match: https://www.bing.com/search?*q=pesquisar*
 */
 
-const triggerWord = "preencher";
+const triggerWord = "pesquisar";
 const searchesToDo = 30;
-const sleepTimeSeconds = 3;
+const sleepTimeSeconds = 10;
 
 function waitForElm(selector) { /* https://stackoverflow.com/questions/5525071/how-to-wait-until-an-element-exists */
   return new Promise(resolve => {
@@ -40,15 +40,17 @@ async function main() {
   const searchBar = await waitForElm("#sb_form_q");
   const searchButton = await waitForElm("#sb_form_go");
 
-  if(searchBar.value.toLowerCase().startsWith("preencher")){
+  if(searchBar.value.toLowerCase().startsWith(triggerWord)){
     /* Inicia pesquisa */
-    if(searchBar.value.trim().length == triggerWord.length){
-      searchBar.value += " " + Array.from({length: searchesToDo}, (_, b) => `${b % 10}`).join("");
+    if(searchBar.value.trim().toLowerCase() == triggerWord.toLowerCase()){
+      searchBar.value = `${triggerWord} ${searchesToDo}`;
     }
     /* Muda pesquisa */
     else{
-      searchBar.value = searchBar.value.slice(0, -1);
-  	  if(searchBar.value.toLowerCase() == `${triggerWord} `){
+      const currentSearchNumber = parseInt(searchBar.value.split(" ")[1]) - 1;
+  	  if(currentSearchNumber >= 0){
+        searchBar.value = `${triggerWord} ${currentSearchNumber}`;
+      }else{
   		  searchBar.value = `finish ${triggerWord}`;
   	  }
     }
